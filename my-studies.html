@@ -1,85 +1,633 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>香港小學生呈分試簡介</title>
-  <style>
-    body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f9f9f9; line-height: 1.6; }
-    h1 { color: #2a7ae2; text-align: center; }
-    h2 { color: #444; margin-top: 20px; }
-    .box { background: #fff; padding: 15px; margin: 15px auto; border-radius: 8px; width: 80%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background-color: #e6f0ff; }
-    ul { list-style-type: "📘 "; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Studies</title>
+    <style>
+        :root {
+            --sky-1: #7fd4ff;
+            --sky-2: #bdefff;
+            --sky-3: #e9faff;
+            --cloud: rgba(255, 255, 255, 0.96);
+            --ink: #114a7a;
+            --button: #fff4aa;
+            --button-border: #ffb84d;
+            --button-hover: #ffe06a;
+            --panel: rgba(255, 255, 255, 0.76);
+            --shadow: 0 16px 40px rgba(31, 96, 145, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "PingFang TC", "Hiragino Sans GB", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 15% 18%, var(--cloud) 0 5%, transparent 5.5%),
+                radial-gradient(circle at 22% 17%, var(--cloud) 0 6%, transparent 6.5%),
+                radial-gradient(circle at 30% 18%, var(--cloud) 0 5.5%, transparent 6%),
+                radial-gradient(circle at 78% 12%, var(--cloud) 0 4.5%, transparent 5%),
+                radial-gradient(circle at 84% 11%, var(--cloud) 0 5.5%, transparent 6%),
+                radial-gradient(circle at 90% 12%, var(--cloud) 0 4.8%, transparent 5.3%),
+                linear-gradient(to bottom, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-3) 100%);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.18;
+            filter: blur(2px);
+        }
+
+        body::before {
+            width: 180px;
+            height: 180px;
+            left: -40px;
+            top: 72px;
+            background: #ffffff;
+            box-shadow:
+                80px 14px 0 10px #ffffff,
+                150px 44px 0 14px #ffffff,
+                230px 18px 0 8px #ffffff;
+        }
+
+        body::after {
+            width: 220px;
+            height: 220px;
+            right: -60px;
+            bottom: 36px;
+            background: #ffffff;
+            box-shadow:
+                -90px 6px 0 14px #ffffff,
+                -170px 40px 0 10px #ffffff,
+                -240px 12px 0 8px #ffffff;
+        }
+
+        .page {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 24px 0 40px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 12px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 18px;
+            margin-bottom: 24px;
+            border: 4px solid rgba(255, 255, 255, 0.65);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(6px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .brand-badge {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #fff89a, #ffcb63);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 20px rgba(255, 165, 0, 0.28);
+            font-size: 28px;
+        }
+
+        .brand-text h1 {
+            margin: 0;
+            font-size: clamp(1.5rem, 3vw, 2.4rem);
+            line-height: 1;
+        }
+
+        .brand-text p {
+            margin: 4px 0 0;
+            font-size: 0.98rem;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 10px 18px;
+            text-decoration: none;
+            color: #7a4d00;
+            font-weight: 700;
+            font-size: 1rem;
+            background: linear-gradient(to bottom, var(--button), #ffe88a);
+            border: 3px solid var(--button-border);
+            border-radius: 999px;
+            box-shadow: 0 8px 0 #f7a930, 0 14px 24px rgba(111, 70, 0, 0.18);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        .nav a:hover,
+        .nav a:focus-visible {
+            background: linear-gradient(to bottom, #fff8be, var(--button-hover));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 #e79b28, 0 18px 26px rgba(111, 70, 0, 0.2);
+            outline: none;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 4px solid rgba(255, 255, 255, 0.78);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+        }
+
+        .intro {
+            padding: 30px;
+        }
+
+        .intro h2 {
+            margin: 0 0 14px;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            line-height: 1.08;
+        }
+
+        .intro p {
+            margin: 0 0 14px;
+            font-size: clamp(1rem, 1.9vw, 1.12rem);
+        }
+
+        .card {
+            padding: 16px 18px;
+            margin-top: 14px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 3px solid rgba(17, 74, 122, 0.1);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .card ul {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .card p {
+            margin: 0;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            min-width: 560px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid rgba(17, 74, 122, 0.18);
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: linear-gradient(to bottom, #eaf8ff, #d5f2ff);
+        }
+
+        ul.styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul.styled li {
+            padding-left: 0;
+            margin: 0 0 8px;
+        }
+
+        .fun-zone {
+            padding: 24px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .fun-title {
+            margin: 0;
+            text-align: center;
+            font-size: 1.35rem;
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            min-height: 520px;
+            border-radius: 26px;
+            background:
+                radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.84), transparent 38%),
+                linear-gradient(to bottom, #bdf0ff 0%, #e3fbff 55%, #fff6d4 55%, #f4d88a 100%);
+            border: 4px solid rgba(255, 255, 255, 0.85);
+            overflow: hidden;
+        }
+
+        .sun {
+            position: absolute;
+            width: 82px;
+            height: 82px;
+            top: 18px;
+            right: 18px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fffbe0, #ffd84f 60%, #ffbf1f 100%);
+            box-shadow: 0 0 0 12px rgba(255, 231, 103, 0.22);
+        }
+
+        .cloud {
+            position: absolute;
+            border-radius: 50px;
+            background: var(--cloud);
+            box-shadow: 0 10px 18px rgba(73, 137, 178, 0.12);
+        }
+
+        .cloud.one {
+            width: 130px;
+            height: 48px;
+            left: 18px;
+            top: 36px;
+        }
+
+        .cloud.one::before,
+        .cloud.one::after,
+        .cloud.two::before,
+        .cloud.two::after {
+            content: "";
+            position: absolute;
+            background: var(--cloud);
+            border-radius: 50%;
+        }
+
+        .cloud.one::before {
+            width: 56px;
+            height: 56px;
+            left: 18px;
+            top: -24px;
+        }
+
+        .cloud.one::after {
+            width: 68px;
+            height: 68px;
+            left: 54px;
+            top: -34px;
+        }
+
+        .cloud.two {
+            width: 180px;
+            height: 58px;
+            left: 78px;
+            bottom: 136px;
+        }
+
+        .cloud.two::before {
+            width: 72px;
+            height: 72px;
+            left: 18px;
+            top: -30px;
+        }
+
+        .cloud.two::after {
+            width: 84px;
+            height: 84px;
+            left: 78px;
+            top: -42px;
+        }
+
+        .pencil {
+            position: absolute;
+            left: 26px;
+            top: 136px;
+            width: 92px;
+            height: 18px;
+            border-radius: 999px;
+            background: linear-gradient(to right, #ffd66e 0 74%, #ff8b8b 74% 100%);
+            transform: rotate(-10deg);
+            box-shadow: 0 8px 16px rgba(17, 74, 122, 0.12);
+        }
+
+        .pencil::before {
+            content: "";
+            position: absolute;
+            right: -12px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+            border-left: 12px solid #c98b5a;
+        }
+
+        .desk {
+            position: absolute;
+            left: 50%;
+            bottom: 24px;
+            width: 320px;
+            height: 68px;
+            transform: translateX(-50%);
+            border-radius: 20px;
+            background: linear-gradient(to bottom, #ffbf63, #ea8d2a);
+            border: 4px solid rgba(17, 74, 122, 0.12);
+        }
+
+        .desk::before {
+            content: "";
+            position: absolute;
+            left: 22px;
+            right: 22px;
+            top: 14px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .book {
+            position: absolute;
+            width: 92px;
+            height: 60px;
+            bottom: 88px;
+            left: 76px;
+            background: linear-gradient(to bottom, #ff8f8f, #ff5f7f);
+            border-radius: 12px 18px 14px 16px;
+            transform: rotate(-10deg);
+            box-shadow: 0 10px 18px rgba(17, 74, 122, 0.15);
+        }
+
+        .book::before,
+        .book::after {
+            content: "";
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .book::before {
+            top: 16px;
+        }
+
+        .book::after {
+            top: 32px;
+        }
+
+        .apple {
+            position: absolute;
+            width: 52px;
+            height: 52px;
+            bottom: 94px;
+            right: 66px;
+            border-radius: 50% 50% 45% 45%;
+            background: radial-gradient(circle at 35% 30%, #fff3a0, #ff6b6b 48%, #d91e4f 100%);
+            box-shadow: 0 10px 18px rgba(17, 74, 122, 0.14);
+        }
+
+        .apple::before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 20px;
+            top: -12px;
+            left: 24px;
+            border-radius: 999px;
+            background: #87512d;
+            transform: rotate(10deg);
+        }
+
+        .apple::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 10px;
+            top: -6px;
+            left: 30px;
+            border-radius: 50% 50% 50% 0;
+            background: #64c35f;
+            transform: rotate(24deg);
+        }
+
+        .footnote {
+            margin: 0;
+            text-align: center;
+            font-size: 0.98rem;
+        }
+
+        @media (max-width: 820px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .brand {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .nav {
+                justify-content: center;
+            }
+
+            .intro,
+            .fun-zone {
+                padding: 20px;
+            }
+
+            .scene {
+                min-height: 430px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .page {
+                width: min(100% - 18px, 1100px);
+                padding-top: 12px;
+            }
+
+            .topbar {
+                padding: 12px;
+                border-radius: 20px;
+            }
+
+            .nav a {
+                width: 100%;
+            }
+
+            .scene {
+                min-height: 380px;
+            }
+
+            .desk {
+                width: 250px;
+            }
+
+            .book {
+                left: 34px;
+            }
+
+            .apple {
+                right: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <main class="page">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-badge">☀</div>
+                <div class="brand-text">
+                    <h1>香港小學生呈分試</h1>
+                    <p>用輕鬆方式了解呈分試資訊</p>
+                </div>
+            </div>
+            <nav class="nav" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="my-studies.html" aria-current="page">My Studies</a>
+                <a href="my-games.html">My Games</a>
+                <a href="rubics-cube.html">Rubic's Cube</a>
+            </nav>
+        </header>
 
-  <h1>📘 香港小學生呈分試</h1>
+        <section class="hero">
+            <div class="panel intro">
+                <h2>📘 香港小學生呈分試</h2>
+                <p>
+                    這一頁保留原本的中文內容，並改成和首頁一致的藍天白雲風格。
+                    文字會更適合小學生閱讀，畫面也更活潑。
+                </p>
 
-  <div class="box">
-    <h2>📅 考試安排</h2>
-    <ul>
-      <li>小五下學期（5–6月）</li>
-      <li>小六上學期（10–11月）</li>
-      <li>小六下學期（2–3月）</li>
-    </ul>
-    <p>👉 每次考試通常在一至兩週內完成，不是整個學期分散考。</p>
-    <p>🏫 各學校會在教育局規定的時段內自行安排具體日期。</p>
-    <p>📤 考完後，學校會把成績交給教育局做標準化處理。</p>
-  </div>
+                <div class="card">
+                    <h3>📅 考試安排</h3>
+                    <ul class="styled">
+                        <li>• 小五下學期（5–6月）</li>
+                        <li>• 小六上學期（10–11月）</li>
+                        <li>• 小六下學期（2–3月）</li>
+                    </ul>
+                    <p>👉 每次考試通常在一至兩週內完成，不是整個學期分散考。</p>
+                    <p>🏫 各學校會在教育局規定的時段內自行安排具體日期。</p>
+                    <p>📤 考完後，學校會把成績交給教育局做標準化處理。</p>
+                </div>
 
-  <div class="box">
-    <h2>📊 科目比重</h2>
-    <table>
-      <tr>
-        <th>學年</th>
-        <th>中文</th>
-        <th>英文</th>
-        <th>數學</th>
-        <th>人文</th>
-        <th>科學</th>
-        <th>視藝</th>
-        <th>音樂</th>
-        <th>體育</th>
-      </tr>
-      <tr>
-        <td>舊制 (2025/26前)</td>
-        <td>9</td><td>9</td><td>9</td><td colspan="2">常識6</td><td>3</td><td>2</td><td>-</td>
-      </tr>
-      <tr>
-        <td>新制 (2026/27起)</td>
-        <td>8</td><td>8</td><td>8</td><td>4</td><td>4</td><td>2</td><td>2</td><td>2</td>
-      </tr>
-    </table>
-    <p>👉 新政策把「常識科」分成 <b>人文科</b> 和 <b>科學科</b>，並加入 <b>體育科</b>。</p>
-  </div>
+                <div class="card">
+                    <h3>📊 科目比重</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <tr>
+                                <th>學年</th>
+                                <th>中文</th>
+                                <th>英文</th>
+                                <th>數學</th>
+                                <th>人文</th>
+                                <th>科學</th>
+                                <th>視藝</th>
+                                <th>音樂</th>
+                                <th>體育</th>
+                            </tr>
+                            <tr>
+                                <td>舊制 (2025/26前)</td>
+                                <td>9</td><td>9</td><td>9</td><td colspan="2">常識6</td><td>3</td><td>2</td><td>-</td>
+                            </tr>
+                            <tr>
+                                <td>新制 (2026/27起)</td>
+                                <td>8</td><td>8</td><td>8</td><td>4</td><td>4</td><td>2</td><td>2</td><td>2</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p>👉 新政策把「常識科」分成 <b>人文科</b> 和 <b>科學科</b>，並加入 <b>體育科</b>。</p>
+                </div>
+            </div>
 
-  <div class="box">
-    <h2>🎯 為什麼要這樣安排？</h2>
-    <ul>
-      <li>⚖️ 希望學生均衡學習，不只重視語文和數學。</li>
-      <li>🏃‍♂️ 體育科加入，鼓勵健康成長。</li>
-      <li>🔬 常識科更新，分成人文與科學，讓學習更清楚。</li>
-      <li>📈 教育局會調整不同學校的試卷難度，確保公平。</li>
-    </ul>
-  </div>
+            <div class="panel fun-zone">
+                <h3 class="fun-title">🎯 為什麼要這樣安排？</h3>
+                <div class="card">
+                    <ul class="styled">
+                        <li>• ⚖️ 希望學生均衡學習，不只重視語文和數學。</li>
+                        <li>• 🏃‍♂️ 體育科加入，鼓勵健康成長。</li>
+                        <li>• 🔬 常識科更新，分成人文與科學，讓學習更清楚。</li>
+                        <li>• 📈 教育局會調整不同學校的試卷難度，確保公平。</li>
+                    </ul>
+                </div>
 
-  <div class="box">
-    <h2>⏰ 政策開始時間</h2>
-    <p>📢 教育局於 <b>2024年10月</b> 公布新安排，<b>2026/27學年</b>正式開始。</p>
-    <p>🗓️ 第一批新制呈分試：<b>2027年5月</b>（小五下學期）。</p>
-  </div>
+                <div class="card">
+                    <h3>⏰ 政策開始時間</h3>
+                    <p>📢 教育局於 <b>2024年10月</b> 公布新安排，<b>2026/27學年</b>正式開始。</p>
+                    <p>🗓️ 第一批新制呈分試：<b>2027年5月</b>（小五下學期）。</p>
+                </div>
 
-  <div class="box">
-    <h2>💡 小貼士</h2>
-    <ul>
-      <li>三次考試都很重要，不能只靠最後一次。</li>
-      <li>副科（人文、科學、體育、視藝、音樂）也要認真準備。</li>
-      <li>保持主科穩定表現，副科加分，才能有好結果。</li>
-    </ul>
-  </div>
+                <div class="card">
+                    <h3>💡 小貼士</h3>
+                    <ul class="styled">
+                        <li>• 三次考試都很重要，不能只靠最後一次。</li>
+                        <li>• 副科（人文、科學、體育、視藝、音樂）也要認真準備。</li>
+                        <li>• 保持主科穩定表現，副科加分，才能有好結果。</li>
+                    </ul>
+                </div>
 
+                <div class="scene" aria-label="Funny study picture">
+                    <div class="sun" aria-hidden="true"></div>
+                    <div class="cloud one" aria-hidden="true"></div>
+                    <div class="cloud two" aria-hidden="true"></div>
+                    <div class="pencil" aria-hidden="true"></div>
+                    <div class="book" aria-hidden="true"></div>
+                    <div class="apple" aria-hidden="true"></div>
+                    <div class="desk" aria-hidden="true"></div>
+                </div>
+                <p class="footnote">保持努力，學習也可以很有趣。</p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
